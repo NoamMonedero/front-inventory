@@ -35,6 +35,10 @@ export class NewProductComponent implements OnInit {
         picture: ['', Validators.required]
       })
 
+      if(data != null){
+        this.updateForm(data);
+        this.stateForm = "Actualizar";
+      }
     }
 
     ngOnInit(): void {
@@ -57,13 +61,23 @@ export class NewProductComponent implements OnInit {
       uploadImageData.append('quantity', data.quantity);
       uploadImageData.append('categoryId', data.category);
 
-      //call tge service to save a product
-      this.productService.saveProduct(uploadImageData)
-        .subscribe((data: any) => {
-          this.dialogRef.close(1);
-        }, (error: any) => {
-          this.dialogRef.close(2);
-        })
+      if(this.data != null){
+        //update the product
+        this.productService.updateProduct(uploadImageData, this.data.id)
+            .subscribe((data: any) => {
+              this.dialogRef.close(1);
+            }, (error: any) => {
+              this.dialogRef.close(2);
+            })
+      } else {
+        //call the service to save a product
+        this.productService.saveProduct(uploadImageData)
+          .subscribe((data: any) => {
+            this.dialogRef.close(1);
+          }, (error: any) => {
+            this.dialogRef.close(2);
+          })
+      }
     }
 
     onCancel(){
@@ -86,6 +100,17 @@ export class NewProductComponent implements OnInit {
 
       this.nameImage = event.target.files[0].name;
 
+    }
+
+    updateForm(data: any){
+
+      this.productForm = this.fb.group({
+        name: [data.name, Validators.required],
+        price: [data.price, Validators.required],
+        quantity: [data.quantity, Validators.required],
+        category: [data.category.id, Validators.required],
+        picture: ['', Validators.required]
+      })
     }
 
 }
