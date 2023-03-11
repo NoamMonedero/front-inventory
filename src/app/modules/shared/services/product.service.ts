@@ -19,34 +19,44 @@ export class ProductService {
     return this.http.get(endpoint);
 }
 
-/**
- *save the products
- * @param body
- * @returns
- */
-saveProduct(body: any){
-  const endpoint = `${ base_url}/products`;
-  return this.http.post(endpoint, body);
-}
+  /**
+   *save the products
+  * @param body
+  * @returns
+  */
+  saveProduct(body: any){
+    const endpoint = `${ base_url}/products`;
+    return this.http.post(endpoint, body);
+  }
 
-/**
- * update products
- * @param body
- * @param id
- * @returns
- */
-updateProduct(body: any, id: any){
-  const endpoint = `${ base_url}/products/${id}`;
-  return this.http.put(endpoint, body);
-}
+  /**
+   * update products
+   * @param body
+   * @param id
+   * @returns
+   */
+  updateProduct(body: any, id: any){
+    const endpoint = `${ base_url}/products/${id}`;
+    return this.http.put(endpoint, body);
+  }
 
-/**
- *delete product
- * @param id
- * @returns
- */
-deleteProducts(id: any){
-  const endpoint = `${ base_url}/products/${id}`;
-  return this.http.delete(endpoint);
-}
+  /**
+   *delete product
+  * @param id
+  * @returns
+  */
+  deleteProducts(id: any){
+    const endpoint = `${ base_url}/products/${id}`;
+    return this.http.delete(endpoint);
+  }
+
+  /**
+   * search by name
+   * @param name
+   * @returns
+   */
+  getProductByName(name: string){
+    const endpoint = `${ base_url}/products/filter/${name}`;
+    return this.http.get(endpoint);
+  }
 }
