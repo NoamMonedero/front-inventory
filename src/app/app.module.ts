@@ -12,12 +12,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
     keycloak.init({
       config: {
         url: 'http://localhost:8082/',
-        realm: 'Inventory',
+        realm: 'inventory',
         clientId: 'angular-client'
       },
       initOptions: {
         onLoad: 'login-required',
-        flow:'standard',
+        flow:"standard",
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html'
       },
