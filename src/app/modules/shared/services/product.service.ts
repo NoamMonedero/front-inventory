@@ -59,4 +59,16 @@ export class ProductService {
     const endpoint = `${ base_url}/products/filter/${name}`;
     return this.http.get(endpoint);
   }
+
+  /**
+   * export products excel
+   * @returns
+   */
+  exportProducts(){
+    const endpoint = `${base_url}/products/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob'
+    });
+  }
+
 }

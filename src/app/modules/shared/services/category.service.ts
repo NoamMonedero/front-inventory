@@ -13,6 +13,7 @@ export class CategoryService {
 
   /**
    * get all categories
+   * @returns
    */
   getCategories(){
 
@@ -22,6 +23,8 @@ export class CategoryService {
 
   /**
    * save the categories
+   * @param body
+   * @returns
    */
   saveCategories(body: any){
     const endpoint = `${base_url}/categories`;
@@ -30,6 +33,9 @@ export class CategoryService {
 
   /**
    * update categories
+   * @param body
+   * @param id
+   * @returns
    */
   updateCategories(body: any, id: any){
     const endpoint = `${base_url}/categories/ ${id}`;
@@ -38,6 +44,8 @@ export class CategoryService {
 
   /**
    * delete categories
+   * @param id
+   * @returns
    */
   deleteCategories(id: any){
     const endpoint = `${base_url}/categories/ ${id}`;
@@ -46,9 +54,24 @@ export class CategoryService {
 
   /**
    * delete categories
+   * @param id
+   * @returns
    */
   getCategoriesById(id: any){
     const endpoint = `${base_url}/categories/ ${id}`;
     return this.http.get(endpoint);
   }
+
+  /**
+   * export categories excel
+   * @returns
+   */
+  exportCategories(){
+    const endpoint = `${base_url}/categories/export/excel`;
+    return this.http.get(endpoint, {
+      responseType: 'blob'
+    });
+  }
+
+
 }
