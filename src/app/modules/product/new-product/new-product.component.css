@@ -1,3 +1,4 @@
+
 .product-container {
   display: flex;
   flex-direction: column;
@@ -7,13 +8,23 @@
   width: 100%;
 }
 
-.input-file{
+.input-file {
   display: none;
 }
 
-.subir{
+.subir {
   padding: 5px 16px;
-  background: #3F51b5;
+  background-color: #3f51b5;
   color: #fff;
-  border: 0px solid #fff;
+  border: none;
+  cursor: pointer;
 }
+
+label {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+

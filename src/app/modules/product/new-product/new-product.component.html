@@ -1,58 +1,100 @@
-<h2 mat-dialog-title> {{stateForm}} nuevo Producto </h2>
-<mat-dialog-content>
-
-  <form [formGroup]= "productForm">
+<h2 mat-dialog-title id="tittle">{{stateForm}} nuevo Producto</h2>
+<mat-dialog-content tabindex="-1" aria-labelledby="tittle" aria-describedby="form">
+  <form id="form" [formGroup]="productForm" (ngSubmit)="onSave()" novalidate>
     <div class="product-container">
       <mat-form-field>
-        <input matInput placeholder="Nombre" formControlName="name" required/>
+        <label for="name-input" role="button">Nombre</label>
+        <input matInput placeholder="Nombre" formControlName="name" required
+          aria-labelledby="name-input"
+          aria-describedby="name-error"
+          aria-required="true"
+          [attr.aria-invalid]="hasError('name', 'required') ? true : null"
+          id="name-input"
+          tabindex="1"/>
+        <mat-error id="name-error" *ngIf="hasError('name', 'required')" aria-live="assertive">El nombre es obligatorio</mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput type="number" placeholder="Precio" formControlName="price" required/>
+        <label for="price-input" role="button">Precio</label>
+        <input matInput type="number" placeholder="Precio" formControlName="price" required
+        aria-labelledby="price-input"
+        aria-describedby="price-error-required-message price-error-min-message"
+        aria-required="true"
+        [attr.aria-invalid]="hasError('price', 'required') || hasError('price', 'min') ? true : null"
+        id="price-input"
+        tabindex="2" />
+        <mat-error id="price-error-required" *ngIf="hasError('price', 'required')" aria-live="assertive">El precio es obligatorio</mat-error>
+        <mat-error id="price-error-min" *ngIf="hasError('price', 'min')" aria-live="assertive">El precio debe ser mayor o igual a cero</mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput type="number" placeholder="Cantidad" formControlName="quantity" required/>
+        <label for="quantity-input" role="button">Cantidad</label>
+        <input matInput type="number" placeholder="Cantidad" formControlName="quantity" required
+        aria-labelledby="quantity-input"
+        aria-describedby="quantity-error-required-message quantity-error-min-message"
+        aria-required="true"
+        [attr.aria-invalid]="hasError('quantity', 'required') || hasError('quantity', 'min') ? true : null"
+        id="quantity-input"
+        tabindex="3" />
+        <mat-error id="quantity-error-required" *ngIf="hasError('quantity', 'required')" aria-live="assertive">La cantidad es obligatoria</mat-error>
+        <mat-error id="quantity-error-min" *ngIf="hasError('quantity', 'min')" aria-live="assertive">La cantidad debe ser mayor o igual a cero</mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Categoría</mat-label>
-        <mat-select formControlName="category">
-            <mat-option *ngFor= "let cat of categories" [value] = "cat.id">
-              {{ cat.name }}
-            </mat-option>
+        <mat-select formControlName="category" aria-label="Categoría" aria-required="true" aria-owns="category">
+          <mat-option *ngFor="let cat of categories" [value]="cat.id" id="category">
+            {{ cat.name }}
+          </mat-option>
         </mat-select>
+        <mat-error *ngIf="hasError('category', 'required')" aria-live="assertive">La categoría es obligatoria</mat-error>
       </mat-form-field>
 
       <div>
-        <mat-label> Foto: </mat-label>
-        <label for="file-upload" class="subir">
+        <mat-label>Foto:</mat-label>
+        <label role="button" for="file-upload" class="subir" aria-label="Subir archivo">
           Subir archivo
         </label>
-
-        <input id="file-upload"
+        <input
+          id="file-upload"
           accept="image/png, image/jpeg"
-          (change)= "onFileChanged($event)"
+          (change)="onFileChanged($event)"
           type="file"
           formControlName="picture"
-          class="input-file"/>
-          <span> {{ nameImage }} </span>
+          class="input-file"
+          aria-label="Foto"
+          aria-required="true"
+          aria-describedby="picture-error"
+          #pictureInput/>
+          <span > {{ nameImage }} </span>
+        <span id="picture-error" class="sr-only" *ngIf="hasError('picture', 'required')">La foto es obligatoria</span>
+        <mat-error *ngIf="hasError('picture', 'required')" aria-live="assertive">La foto es obligatoria</mat-error>
       </div>
-
-
     </div>
-
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions>
+  <button
+    mat-button
+    color="primary"
+    type="submit"
+    [disabled]="productForm.invalid"
+    aria-label="Guardar"
+    [attr.aria-disabled]="productForm.invalid.toString()"
+  >
+    <mat-icon aria-hidden="true">save</mat-icon>
+    <span>Guardar</span>
+  </button>
 
-<button mat-button color="primary" (click)= "onSave()" [disabled]= "productForm.invalid">
-  <mat-icon>save</mat-icon> Guardar
-</button>
-
-<button mat-button color="primary" (click)= "onCancel()">
-  <mat-icon>cancel</mat-icon> Cancelar
-</button>
-
+  <button
+    mat-button
+    color="primary"
+    (click)= "onCancel()"
+    aria-label="Cancelar"
+    >
+    <mat-icon aria-hidden="true">cancel</mat-icon>
+    <span>Cancelar</span>
+  </button>
 </mat-dialog-actions>
+

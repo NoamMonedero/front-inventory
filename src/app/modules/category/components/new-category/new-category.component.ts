@@ -62,12 +62,10 @@ export class NewCategoryComponent {
   }
 
   onCancel(){
-
     this.dialogRef.close(3);
   }
 
   updateForm(data: any){
-
     this.categoryForm = this.fb.group({
       name: [data.name, Validators.required],
       description: [data.description, Validators.required]

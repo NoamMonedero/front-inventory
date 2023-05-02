@@ -14,8 +14,8 @@
           </button>
         </li>
         <li>
-          <button mat-button [matMenuTriggerFor]="menu">
-              <mat-icon>person_outline</mat-icon>
+          <button mat-button [matMenuTriggerFor]="menu" class="buttonPerson">
+              <mat-icon style="font-size: 22px">person_outline</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
               <button mat-menu-item (click)= "logout()">

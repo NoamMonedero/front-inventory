@@ -7,6 +7,7 @@ import { ConfirmComponent } from '../../shared/components/confirm/confirm.compon
 import { ProductService } from '../../shared/services/product.service';
 import { UtilService } from '../../shared/services/util.service';
 import { NewProductComponent } from '../new-product/new-product.component';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -133,22 +134,55 @@ export class ProductComponent implements OnInit {
       })
   }
 
-  exportExcel(){
-    this.productService.exportProducts()
-      .subscribe((data: any) => {
-        let file = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
-        let fileUrl = URL.createObjectURL(file);
-        var anchor = document.createElement("a");
-        anchor.download = "products.xlsx";
-        anchor.href = fileUrl;
-        anchor.click();
+  // MIGRACIÓN
+  // exportExcel(){
+  //   this.productService.exportProducts()
+  //     .subscribe((data: any) => {
+  //       let file = new Blob([data], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})
+  //       let fileUrl = URL.createObjectURL(file);
+  //       var anchor = document.createElement("a");
+  //       anchor.download = "products.xlsx";
+  //       anchor.href = fileUrl;
+  //       anchor.click();
 
-        this.openSnackBar("Archivo exportado correctamente", "Éxito");
-      }, (error: any) => {
-        this.openSnackBar("No se pudo exportar el archivo", "Error");
-      });
+  //       this.openSnackBar("Archivo exportado correctamente", "Éxito");
+  //     }, (error: any) => {
+  //       this.openSnackBar("No se pudo exportar el archivo", "Error");
+  //     });
+  // }
 
+  // async exportExcel() {
+  //   try {
+  //     const data = await this.productService.exportProducts().toPromise();
+  //     const file = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  //     const fileUrl = URL.createObjectURL(file);
+  //     const anchor = document.createElement('a');
+  //     anchor.download = 'products.xlsx';
+  //     anchor.href = fileUrl;
+  //     anchor.click();
+  //     this.openSnackBar('Archivo exportado correctamente', 'Éxito');
+  //   } catch (error) {
+  //     this.openSnackBar('No se pudo exportar el archivo', 'Error');
+  //   }
+  // }
+
+
+async exportExcel() {
+  try {
+    let data = await lastValueFrom(this.productService.exportProducts());
+    let file = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    let fileUrl = URL.createObjectURL(file);
+    let anchor = document.createElement('a');
+    anchor.download = 'products.xlsx';
+    anchor.href = fileUrl;
+    anchor.click();
+    this.openSnackBar('Archivo exportado correctamente', 'Éxito');
+  } catch (error) {
+    this.openSnackBar('No se pudo exportar el archivo', 'Error');
   }
+}
+
+
 }
 
 
