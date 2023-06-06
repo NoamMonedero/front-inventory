@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ProductElement } from 'src/app/modules/product/product/product.component';
 import { ProductService } from 'src/app/modules/shared/services/product.service';
@@ -8,7 +8,7 @@ import { ProductService } from 'src/app/modules/shared/services/product.service'
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   charBar: any;
   charDoughnut: any;

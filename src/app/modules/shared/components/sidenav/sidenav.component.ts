@@ -21,6 +21,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(media: MediaMatcher, private keycloackService: KeycloakService){
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    
   }
 
   shouldRun = true;
